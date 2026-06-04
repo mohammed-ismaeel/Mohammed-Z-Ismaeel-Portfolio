@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
 
 const Sidebar = ({ navLinks, onClose, activeSection }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <>
       {/* Overlay */}
@@ -52,7 +62,7 @@ const Sidebar = ({ navLinks, onClose, activeSection }) => {
                     key={index}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
+                    transition={{ delay: isMobile ? 0 : index * 0.05 }}
                   >
                     <a
                       href={`#${ele}`}
@@ -134,7 +144,7 @@ const Sidebar = ({ navLinks, onClose, activeSection }) => {
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + index * 0.05 }}
+                  transition={{ delay: isMobile ? 0 : 0.3 + index * 0.05 }}
                 >
                   <a
                     href={social.href}

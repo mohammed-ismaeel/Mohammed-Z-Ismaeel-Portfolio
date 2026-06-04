@@ -7,8 +7,24 @@ const Hero = () => {
   const fullText = "HEY! I'm Mohammed, Fullstack Developer";
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingDone, setIsTypingDone] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      setDisplayedText(fullText);
+      setIsTypingDone(true);
+      return;
+    }
+
     let index = 0;
     const interval = setInterval(() => {
       setDisplayedText(fullText.slice(0, index + 1));
@@ -17,9 +33,9 @@ const Hero = () => {
         clearInterval(interval);
         setIsTypingDone(true);
       }
-    }, 80); 
+    }, 80);
     return () => clearInterval(interval);
-  }, []);
+  }, [isMobile, fullText]);
 
   const description =
     "I'm a junior Full Stack Developer with expertise in building dynamic and efficient web applications. I create seamless user experiences by blending clean front-end designs with powerful back-end functionality using the latest technologies.";
@@ -32,7 +48,7 @@ const Hero = () => {
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.08,
+        delay: isMobile ? 0 : i * 0.08,
         duration: 0.4,
       },
     }),
@@ -44,7 +60,7 @@ const Hero = () => {
       opacity: 1,
       y: 0,
       transition: {
-        delay,
+        delay: isMobile ? 0 : delay,
         duration: 0.6,
         ease: "easeOut",
       },
