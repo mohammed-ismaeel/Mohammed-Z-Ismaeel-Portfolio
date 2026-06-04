@@ -176,11 +176,9 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import MyProjects from "../MyProjects";
 import "./ProjectStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Icon from "./../../assets/images/Icon.svg";
 import BestProjects from "../BestProjects/BestProjects";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
-import maximizeIcon from "./../../assets/images/maximize.svg";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
