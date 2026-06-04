@@ -9,6 +9,16 @@ const Discuss = () => {
   const [prevScroll, setPrevScroll] = useState(window.scrollY);
   const [direction, setDirection] = useState("down");
   const [animateNow, setAnimateNow] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,10 +40,12 @@ const Discuss = () => {
 
   // التحكم بالأنيميشن بناءً على اتجاه التمرير والرؤية
   useEffect(() => {
-    if (isInView && direction === "down") {
+    if (isMobile) {
+      setAnimateNow(true);
+    } else if (isInView && direction === "down") {
       setAnimateNow(true);
     }
-  }, [isInView, direction]);
+  }, [isInView, direction, isMobile]);
 
   return (
     <div

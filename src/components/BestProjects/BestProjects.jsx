@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -17,6 +17,16 @@ import detailsButtonIcon from "./../../assets/images/Icon.svg";
 
 const BestProjects = () => {
   const swiperRef = useRef(null); // مرجع للسوايبر
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="best-projects w-11/12 mx-auto my-10">
@@ -53,26 +63,31 @@ const BestProjects = () => {
         <main className="slider-main-container max-lg:w-full">
           <Swiper
             onSwiper={(swiper) => (swiperRef.current = swiper)}
-            effect={"coverflow"}
+            effect={isMobile ? "slide" : "coverflow"}
             grabCursor={true}
             centeredSlides={true}
-            slidesPerView={"auto"}
+            slidesPerView={isMobile ? 1.2 : "auto"}
+            spaceBetween={isMobile ? 16 : 0}
             loop={true}
             initialSlide={Math.floor(MyProjects.length / 2)}
-            coverflowEffect={{
-              rotate: 50,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: true,
-            }}
-            modules={[EffectCoverflow, Pagination]}
+            coverflowEffect={
+              !isMobile
+                ? {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                  }
+                : undefined
+            }
+            modules={isMobile ? [Pagination] : [EffectCoverflow, Pagination]}
             className="mySwiper h-96 flex max-md:h-80"
           >
             {MyProjects?.map((ele, index) => (
               <SwiperSlide
                 key={index}
-                className="w-1/3 bg-white max-md:w-2/3 max-sm:w-4/5"
+                className={isMobile ? "w-[85%] max-w-[320px]" : "w-1/3 bg-white"}
               >
                 <div className="swiper-card h-full relative">
                   <div className="project-img h-3/4 overflow-hidden relative ">
