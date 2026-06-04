@@ -371,7 +371,7 @@ const ProjectDetails = ({ onClick }) => {
       )}
 
       <div className="fixed top-0 left-0 w-full z-[999999] pointer-events-none">
-        <div className="w-[92%] max-w-7xl h-14 flex justify-between items-center mx-auto mt-4 px-8 py-0 glass-panel rounded-2xl max-lg:px-6 max-sm:px-4 pointer-events-auto">
+        <div className="w-[92%] max-w-7xl h-14 flex justify-between items-center mx-auto mt-4 px-8 py-0 glass-panel rounded-2xl max-lg:px-6 max-sm:px-3 pointer-events-auto">
 
           <button
             onClick={() => {
@@ -381,12 +381,13 @@ const ProjectDetails = ({ onClick }) => {
                 window.location.href = "/#Projects";
               }
             }}
-            className="group text-blue flex items-center gap-2 cursor-pointer glass-panel rounded-xl px-4 py-2 border border-blue/20 shadow-[0_0_30px_rgba(56,189,248,0.12)] hover:shadow-[0_0_50px_rgba(56,189,248,0.2)] hover:border-blue/40 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 bg-transparent"
+            className="group text-blue flex items-center gap-2 max-sm:gap-1.5 cursor-pointer glass-panel rounded-xl px-4 py-2 max-sm:px-3 max-sm:py-2 border border-blue/20 shadow-[0_0_30px_rgba(56,189,248,0.12)] hover:shadow-[0_0_50px_rgba(56,189,248,0.2)] hover:border-blue/40 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 bg-transparent"
           >
             <div className="w-7 h-7 max-sm:w-6 max-sm:h-6 rounded-lg bg-blue/10 border border-blue/30 flex items-center justify-center group-hover:bg-blue/20 group-hover:border-blue/50 transition-all duration-300">
               <FontAwesomeIcon icon="fa-solid fa-chevron-left" className="text-base max-sm:text-sm" />
             </div>
-            <span className="font-medium text-base max-sm:text-sm">Back to Projects</span>
+            <span className="font-medium text-base max-sm:hidden">Back to Projects</span>
+            <span className="font-medium text-base hidden max-sm:inline">Back</span>
             <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
           <div className="logo text-2xl font-bold text-white tracking-tight">

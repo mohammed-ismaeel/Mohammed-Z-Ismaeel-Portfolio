@@ -25,37 +25,69 @@ const HomePage = ({ onClick }) => {
     "Contact",
   ];
 
-  const toggleVisibility = () => {
-    if (window.pageYOffset === 0) {
-      setIsVisible(false);
-    } else {
-      setIsVisible(true);
+  const updateScrollState = () => {
+    setIsVisible(window.pageYOffset > 0);
+
+    const sections = Array.from(document.querySelectorAll("section[id]"));
+
+    if (!sections.length) {
+      return;
     }
+
+    const activationLine = window.innerHeight * 0.4;
+    let nextActiveSection = sections[0].id;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const sectionIsCentered =
+        rect.top <= activationLine && rect.bottom >= activationLine;
+
+      if (sectionIsCentered) {
+        nextActiveSection = section.id;
+        closestDistance = 0;
+        return;
+      }
+
+      if (rect.top <= activationLine + 120) {
+        const distance = Math.abs(rect.top - activationLine);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          nextActiveSection = section.id;
+        }
+      }
+    });
+
+    setActiveSection((current) =>
+      current === nextActiveSection ? current : nextActiveSection
+    );
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility);
+    let animationFrameId = 0;
+
+    const handleScroll = () => {
+      if (animationFrameId) {
+        return;
+      }
+
+      animationFrameId = window.requestAnimationFrame(() => {
+        animationFrameId = 0;
+        updateScrollState();
+      });
+    };
+
+    updateScrollState();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", toggleVisibility);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
     };
-  }, []);
-
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
 
   return (

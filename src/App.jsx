@@ -4,12 +4,30 @@ import HomePage from "./Pages/HomePage";
 import Details from "./Pages/Details";
 import ScrollToTop from "./components/ScrollToTop";
 import MouseGlow from "./components/MouseGlow/MouseGlow";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [showMouseGlow, setShowMouseGlow] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(
+      "(pointer: fine) and (min-width: 769px)"
+    );
+
+    const updateGlowState = () => {
+      setShowMouseGlow(mediaQuery.matches);
+    };
+
+    updateGlowState();
+    mediaQuery.addEventListener("change", updateGlowState);
+
+    return () => mediaQuery.removeEventListener("change", updateGlowState);
+  }, []);
+
   return (
     <>
       <div className="cont dark-theme overflow-hidden">
-        <MouseGlow />
+        {showMouseGlow && <MouseGlow />}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/Details/:id" element={<Details />}></Route>

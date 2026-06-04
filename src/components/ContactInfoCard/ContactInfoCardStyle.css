@@ -4,6 +4,16 @@
   align-items: center;
 }
 
+.contact-card .information {
+  min-width: 0;
+  flex: 1;
+}
+
+.contact-card .vs {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .contact-card img {
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(139, 92, 246, 0.18));
   padding: 15px;
