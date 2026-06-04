@@ -4,12 +4,12 @@ import { motion, useInView } from "framer-motion";
 const Discuss = () => {
 
   const ref = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const isInView = useInView(ref, { amount: isMobile ? 0.01 : 0.4 });
 
   const [prevScroll, setPrevScroll] = useState(window.scrollY);
   const [direction, setDirection] = useState("down");
   const [animateNow, setAnimateNow] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const handleResize = () => {
