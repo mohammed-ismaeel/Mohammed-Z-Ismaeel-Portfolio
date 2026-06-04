@@ -1,0 +1,13 @@
+.contact-card {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.contact-card img {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(139, 92, 246, 0.18));
+  padding: 15px;
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  border-radius: 16px;
+  box-shadow: 0 0 34px rgba(56, 189, 248, 0.12);
+}
